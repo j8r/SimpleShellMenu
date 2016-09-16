@@ -1,6 +1,6 @@
 # Simple Shell Menu - A minimal POSIX shell menu
 
-![screenshot](https://raw.githubusercontent.com/j8r/SimpleShellMenu/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/j8r/SimpleShellMenu/master/screenshot.png)
 
 
 ### use
