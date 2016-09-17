@@ -3,16 +3,10 @@
 # (c) 2016 Julien Reichardt - MIT License
 
 end="\33[0m"
-# Blod red
-brd="\33[1;31m"
-# White
-wt="\33[0;37m"
-# Text color
-cl=$wt
-# Selectioned text color
-sl=$brd
-
-linenb=1
+# Blod red text color
+cl="\33[0;37m"
+# White selectioned color
+sl="\33[1;31m"
 
 get_key() {
   stty_state=$(stty -g)
@@ -34,20 +28,24 @@ key_action() {
 }
 
 ssm() {
+  linenb=1
   total="-1"
   printf "\033c$1\n"
   while read line ;do
-    [ $total = 0 ] && printf "$3$sl$line$end\n" || printf "$3$cl$line$end\n"
+    [ $total = 0 ] && printf "$3$sl$line$end\n" && lchoice=$line || printf "$3$cl$line$end\n"
     total=$(( total + 1 ))
   done <<EOT
-  $(printf "$2\n")
+  $(printf "$2")
 EOT
   while get_key && [ "$key" != '0000000  cr' ]; do
     key_action
+    i=
     printf "\033c$1\n"
-    printf "$2\n" | while read line ;do
-      [ "$i" = $linenb ] && printf "$3$sl$line$end\n" || printf "$3$cl$line$end\n"
+    while read line ;do
+      [ "$i" = $linenb ] && printf "$3$sl$line$end\n"  && lchoice=$line || printf "$3$cl$line$end\n"
       i=$(( i + 1 ))
-    done
+    done <<EOT
+    $(printf "$2")
+EOT
   done
 }
