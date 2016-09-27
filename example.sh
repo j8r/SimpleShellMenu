@@ -1,9 +1,8 @@
 #!/bin/sh
-
 . ./ssm.sh
 
 ssm "\33[0;33m  Select an app with arrows <-v->\33[0m
-  \33[0;33mConfirm with Enter <-'\33[0m" "\33[0;34m         Exit with Esc/Q\33[0m
+  \33[0;33mConfirm with Enter <-'\33[0m" "\33[1;31m         Exit with Esc/Q\33[0m
 Choice 1
 Choice 2
 Choice 3
