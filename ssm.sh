@@ -6,9 +6,9 @@ end="\33[0m"
 # White text color
 cl="\33[0;37m"
 # Bold Yellow selectioned color
-sl="\33[0;34m"
+sl="\33[1;33m"
 
-get_key() {
+ssm_get_key() {
   stty_state=$(stty -g)
   stty raw -echo min 1
   key=$(printf "$(dd bs=3 count=1 2>/dev/null)" | od -a)
@@ -17,10 +17,10 @@ get_key() {
   key=${key%*????????}
 }
 
-key_action() {
+ssm_key_action() {
   case $key in
-    w|W|' [   A') [ $linenb -gt 1 ] && linenb=$(( linenb - 1 )) || linenb=$total ;; # UP
-    s|S|' [   B') [ $linenb -lt $total ] && linenb=$(( linenb + 1 )) || linenb=1;; # DOWN
+    w|W|' [   A') [ $ssm_line -gt 1 ] && ssm_line=$(( ssm_line - 1 )) || ssm_line=$total ;; # UP
+    s|S|' [   B') [ $ssm_line -lt $total ] && ssm_line=$(( ssm_line + 1 )) || ssm_line=1;; # DOWN
     d|D|' [   C') ;; # RIGHT
     a|A|' [   D') ;; # LEFT
     q|Q|'0000000 esc') clear; exit;;
@@ -28,21 +28,21 @@ key_action() {
 }
 
 ssm() {
-  linenb=1
+  ssm_line=1
   total="-1"
   printf "\033c$1\n"
   while read line ;do
-    [ $total = 0 ] && printf "$3$sl$line$end\n" && lchoice=$line || printf "$3$cl$line$end\n"
+    [ $total = 0 ] && printf "$3$sl$line$end\n" && ssm_text=$line || printf "$3$cl$line$end\n"
     total=$(( total + 1 ))
   done <<E
   $(printf "$2")
 E
-  while get_key && [ "$key" != '0000000  cr' ]; do
-    key_action
+  while ssm_get_key && [ "$key" != '0000000  cr' ]; do
+    ssm_key_action
     i=
     printf "\033c$1\n"
     while read line ;do
-      [ "$i" = $linenb ] && printf "$3$sl$line$end\n"  && lchoice=$line || printf "$3$cl$line$end\n"
+      [ "$i" = $ssm_line ] && printf "$3$sl$line$end\n"  && ssm_text=$line || printf "$3$cl$line$end\n"
       i=$(( i + 1 ))
     done <<E
     $(printf "$2")

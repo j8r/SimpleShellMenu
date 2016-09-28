@@ -8,14 +8,14 @@ Choice 2
 Choice 3
 Choice 4" "    "
 
-case "$lchoice" in
+case "$ssm_text" in
   "Choice 1") printf "First choice selected\n";;
   "Choice 2") printf "Second choice selected\n";;
   "Choice 3") printf "Third choice selected\n";;
   "Choice 4") printf "Fourth choice selected\n";;
 esac
 
-case $linenb in
+case $ssm_line in
   1) printf "First choice chosen\n";;
   2) printf "Second choice chosen\n";;
   3) printf "Third choice chosen\n";;
